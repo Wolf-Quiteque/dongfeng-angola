@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import AosManager from "./_components/AosManager";
+import Preloader from "./_components/Preloader";
 
 export const metadata: Metadata = {
   title: "Dongfeng Angola — Representante oficial em Angola",
@@ -79,6 +80,7 @@ export default function RootLayout({
         {/* Template's own init — last. */}
         <Script src="/assets/js/script.js" strategy="afterInteractive" />
 
+        <Preloader />
         <Header />
         <Suspense fallback={null}>
           <AosManager />
