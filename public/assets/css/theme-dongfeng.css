@@ -1,0 +1,255 @@
+/* ============================================
+   Dongfeng Angola — Red/White theme override
+   Loaded LAST so it wins specificity battles.
+   ============================================ */
+
+:root {
+  --thm-base: #E50012;
+  --thm-base-rgb: 229, 0, 18;
+  --thm-primary: #E50012;
+  --thm-primary-rgb: 229, 0, 18;
+  --thm-black: #111111;
+  --thm-gray: #f5f5f7;
+  --thm-white: #ffffff;
+}
+
+/* Buttons */
+.thm-btn,
+.thm-btn:hover,
+button.thm-btn,
+.btn-primary,
+.cta-one__btn,
+.main-slider__btn,
+.footer-widget__btn {
+  background-color: #E50012 !important;
+  color: #ffffff !important;
+  border-color: #E50012 !important;
+}
+.thm-btn::before,
+.thm-btn::after {
+  background-color: #B30010 !important;
+}
+.thm-btn:hover {
+  background-color: #B30010 !important;
+}
+
+/* Links / accent text */
+a { color: #E50012; }
+a:hover { color: #B30010; }
+.main-menu__list > li > a:hover,
+.main-menu__list > li.current > a,
+.main-menu__list > li.current-menu-item > a,
+.stricky-header .main-menu__list > li > a:hover,
+.stricky-header .main-menu__list > li.current > a {
+  color: #E50012;
+}
+
+/* Brand badge on car listing card */
+.listing-one__brand-name {
+  background-color: #E50012 !important;
+  color: #ffffff !important;
+}
+.listing-one__brand-name p { color: #ffffff !important; }
+
+/* Listing single price + tags */
+.listing-single__price,
+.listing-single__price span,
+.listing-one__car-rent span {
+  color: #E50012 !important;
+}
+
+/* Hero / page-header overlay tint */
+.page-header__bg {
+  background-color: rgba(229, 0, 18, 0.55);
+  background-blend-mode: multiply;
+}
+
+/* Section accents */
+.section-title__tagline,
+.section-title__tagline span,
+.about-one__tagline,
+.section-title__tagline-box::before,
+.section-title__tagline-box::after {
+  color: #E50012 !important;
+}
+
+/* Top header bar - red strip */
+.main-menu__top {
+  background-color: #111111;
+  color: #ffffff;
+}
+.main-menu__top a,
+.main-menu__top p,
+.main-menu__top .icon i {
+  color: #ffffff !important;
+}
+.main-menu__top .icon {
+  color: #E50012;
+}
+.main-menu__social a:hover { color: #E50012 !important; }
+
+/* Main nav background stays white, accents red */
+.main-menu,
+.stricky-header.stricked-menu {
+  background-color: #ffffff;
+  border-bottom: 2px solid #E50012;
+}
+
+/* Sticky header on scroll */
+.stricky-header.stricked-menu.stricky-fixed {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer */
+.site-footer {
+  background-color: #111111;
+}
+.site-footer__bg { opacity: 0.15; }
+.footer-widget__title,
+.footer-widget__about-text,
+.footer-widget__links-list a,
+.site-footer__copyright-text,
+.site-footer__bottom-menu a,
+.footer-widget__contact-list a,
+.footer-widget__contact-list p {
+  color: #ffffff !important;
+}
+.footer-widget__links-list a:hover,
+.site-footer__bottom-menu a:hover,
+.footer-widget__contact-list a:hover {
+  color: #E50012 !important;
+}
+.footer-widget__contact-list .icon {
+  color: #E50012;
+}
+.footer-widget__btn {
+  background-color: #E50012 !important;
+}
+
+/* Newsletter input */
+.footer-widget__input input {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   Forms (light card backgrounds)
+   The template's contact-page__input-box only styles text/email/number inputs
+   and assumes a dark section background. Override here so every field type
+   (tel, date, time, select, textarea) renders consistently on white cards.
+   ============================================ */
+
+.contact-page__form .contact-page__input-box,
+.visit-form .contact-page__input-box {
+  position: relative;
+  display: block;
+  margin-bottom: 24px;
+}
+
+.contact-page__form .contact-page__input-box input,
+.contact-page__form .contact-page__input-box select,
+.visit-form .contact-page__input-box input,
+.visit-form .contact-page__input-box select {
+  height: 54px;
+  width: 100%;
+  background-color: #ffffff !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 6px;
+  padding: 0 18px;
+  outline: none;
+  font-size: 15px;
+  color: #111;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.contact-page__form .contact-page__input-box textarea,
+.visit-form .contact-page__input-box textarea {
+  width: 100%;
+  background-color: #ffffff !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 6px;
+  padding: 14px 18px;
+  outline: none;
+  font-size: 15px;
+  color: #111;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 130px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Date / time inputs sometimes use their own UA padding — override */
+.contact-page__form .contact-page__input-box input[type="date"],
+.contact-page__form .contact-page__input-box input[type="time"],
+.visit-form .contact-page__input-box input[type="date"],
+.visit-form .contact-page__input-box input[type="time"] {
+  padding-right: 12px;
+  color: #555;
+}
+
+/* Select chevron */
+.contact-page__form .contact-page__input-box select,
+.visit-form .contact-page__input-box select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23666' d='M6 8L0 0h12z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  padding-right: 42px;
+  cursor: pointer;
+}
+
+/* Placeholder */
+.contact-page__form input::placeholder,
+.contact-page__form textarea::placeholder,
+.visit-form input::placeholder,
+.visit-form textarea::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* Focus */
+.contact-page__form .contact-page__input-box input:focus,
+.contact-page__form .contact-page__input-box select:focus,
+.contact-page__form .contact-page__input-box textarea:focus,
+.visit-form .contact-page__input-box input:focus,
+.visit-form .contact-page__input-box select:focus,
+.visit-form .contact-page__input-box textarea:focus {
+  border-color: #E50012 !important;
+  box-shadow: 0 0 0 3px rgba(229, 0, 18, 0.12);
+}
+
+/* Submit button row */
+.contact-page__btn-box {
+  margin-top: 4px;
+}
+
+/* Cards on hover */
+.listing-one__single:hover,
+.listing-single__single:hover {
+  box-shadow: 0 12px 32px rgba(229, 0, 18, 0.12);
+}
+
+/* Scroll-to-top */
+.scroll-to-top {
+  background-color: #E50012 !important;
+}
+
+/* Hero slider title accent */
+.main-slider__title span {
+  color: #E50012;
+}
+
+/* Service cards (if used) */
+.service-one__icon,
+.feature-one__icon i { color: #E50012; }
+
+/* Selection */
+::selection { background-color: #E50012; color: #ffffff; }
+
+/* Defensive: prevent any nested section (carousels, fixed bg's) from giving
+   the whole page a horizontal scrollbar on narrow viewports. */
+html, body { overflow-x: hidden; }
