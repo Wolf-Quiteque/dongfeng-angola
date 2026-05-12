@@ -1,10 +1,10 @@
 const sectors = [
-  { emoji: "🚚", label: "Logística & Distribuição" },
-  { emoji: "❄️", label: "Cadeia de Frio" },
-  { emoji: "🏗️", label: "Construção" },
-  { emoji: "🌾", label: "Agricultura" },
-  { emoji: "🏛️", label: "Serviços Públicos" },
-  { emoji: "📦", label: "Mudanças & Transporte" },
+  { icon: "fas fa-truck", label: "Logística & Distribuição" },
+  { icon: "fas fa-snowflake", label: "Cadeia de Frio" },
+  { icon: "fas fa-hard-hat", label: "Construção" },
+  { icon: "fas fa-tractor", label: "Agricultura" },
+  { icon: "fas fa-landmark", label: "Serviços Públicos" },
+  { icon: "fas fa-dolly-flatbed", label: "Mudanças & Transporte" },
 ];
 
 export default function IndustryStrip() {
@@ -67,12 +67,11 @@ export default function IndustryStrip() {
               data-aos="zoom-in"
               data-aos-delay={100 + i * 80}
             >
-              <span
-                style={{ fontSize: 28, flexShrink: 0, lineHeight: 1 }}
+              <i
+                className={s.icon}
+                style={{ fontSize: 26, color: "#E50012", flexShrink: 0, width: 28, textAlign: "center" }}
                 aria-hidden="true"
-              >
-                {s.emoji}
-              </span>
+              />
               <span>{s.label}</span>
             </div>
           ))}
