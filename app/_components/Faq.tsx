@@ -2,78 +2,52 @@
 
 import { useState } from "react";
 
-const faqs = [
-  {
-    q: "Que documentação é necessária para comprar?",
-    a: "Para empresas: certidão comercial, NIF e identificação do representante legal. Para particulares: BI e NIF. A nossa equipa comercial trata da documentação do veículo (DUA, livrete e seguro de origem) até à entrega.",
-  },
-  {
-    q: "Os veículos têm garantia?",
-    a: "Sim. Todos os veículos Dongfeng novos são entregues com garantia de fábrica. As condições exatas variam por modelo — pergunte à equipa comercial no momento da proposta.",
-  },
-  {
-    q: "Têm peças de substituição em stock?",
-    a: "Sim. Mantemos stock permanente das peças de maior rotação em Luanda. Para peças específicas, o prazo médio de chegada é de 7 a 21 dias úteis, dependendo do componente.",
-  },
-  {
-    q: "Posso fazer test drive?",
-    a: "Claro. Marque a sua visita pelo formulário ou por telefone e nós preparamos o veículo para o dia e hora combinados. Recomendamos agendar com pelo menos 24h de antecedência.",
-  },
-  {
-    q: "Fazem entregas fora de Luanda?",
-    a: "Sim, entregamos em todas as províncias de Angola. O custo de transporte é orçamentado caso a caso conforme o destino e o modelo.",
-  },
-  {
-    q: "Aceitam financiamento?",
-    a: "Trabalhamos com instituições financeiras parceiras para apresentar propostas de financiamento ou leasing. Fale com o nosso comercial para uma análise personalizada.",
-  },
-];
+export type FaqContent = {
+  eyebrow: string;
+  title: string;
+  titleAccent: string;
+  text: string;
+  ctaLabel: string;
+  ctaHref: string;
+  items: { q: string; a: string }[];
+};
 
-export default function Faq() {
+const defaultContent: FaqContent = {
+  eyebrow: "Dúvidas frequentes",
+  title: "Tudo o que precisa de saber",
+  titleAccent: "antes de comprar",
+  text: "Não encontrou a resposta? A nossa equipa está disponível para esclarecer qualquer questão técnica ou comercial.",
+  ctaLabel: "Ligar Agora",
+  ctaHref: "tel:+244928283666",
+  items: [],
+};
+
+export default function Faq({ content = defaultContent }: { content?: FaqContent }) {
   const [open, setOpen] = useState<number>(0);
 
   return (
-    <section
-      className="faq-one"
-      style={{ padding: "100px 0", background: "#f5f5f7" }}
-    >
+    <section className="faq-one" style={{ padding: "100px 0", background: "#f5f5f7" }}>
       <div className="container">
         <div className="row align-items-start">
           <div className="col-lg-5">
             <div style={{ marginBottom: 30, position: "sticky", top: 100 }}>
-              <p
-                style={{
-                  color: "#E50012",
-                  textTransform: "uppercase",
-                  fontWeight: 700,
-                  letterSpacing: 2,
-                  marginBottom: 8,
-                }}
-              >
-                Dúvidas frequentes
+              <p style={{ color: "#E50012", textTransform: "uppercase", fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>
+                {content.eyebrow}
               </p>
-              <h2
-                style={{
-                  fontSize: "clamp(28px, 4vw, 42px)",
-                  fontWeight: 800,
-                  lineHeight: 1.15,
-                  marginBottom: 22,
-                }}
-              >
-                Tudo o que precisa de saber <span style={{ color: "#E50012" }}>antes de comprar</span>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, lineHeight: 1.15, marginBottom: 22 }}>
+                {content.title} <span style={{ color: "#E50012" }}>{content.titleAccent}</span>
               </h2>
               <p style={{ fontSize: 16, lineHeight: 1.7, color: "#555", marginBottom: 28 }}>
-                Não encontrou a resposta? A nossa equipa está disponível para
-                esclarecer qualquer questão técnica ou comercial.
+                {content.text}
               </p>
-              <a href="tel:+244928283666" className="thm-btn">
-                Ligar Agora <span className="fas fa-phone" />
+              <a href={content.ctaHref} className="thm-btn">
+                {content.ctaLabel} <span className="fas fa-phone" />
               </a>
             </div>
           </div>
           <div className="col-lg-7">
             <div className="accrodion-grp">
-              {faqs.map((item, i) => {
+              {content.items.map((item, i) => {
                 const isOpen = open === i;
                 return (
                   <div
@@ -106,15 +80,7 @@ export default function Faq() {
                         cursor: "pointer",
                       }}
                     >
-                      <h4
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                          margin: 0,
-                          color: isOpen ? "#E50012" : "#111",
-                          transition: "color 0.3s",
-                        }}
-                      >
+                      <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: isOpen ? "#E50012" : "#111", transition: "color 0.3s" }}>
                         {item.q}
                       </h4>
                       <span
@@ -135,24 +101,9 @@ export default function Faq() {
                         <i className={`fas fa-${isOpen ? "minus" : "plus"}`} />
                       </span>
                     </button>
-                    <div
-                      style={{
-                        maxHeight: isOpen ? 500 : 0,
-                        overflow: "hidden",
-                        transition: "max-height 0.4s ease",
-                      }}
-                    >
+                    <div style={{ maxHeight: isOpen ? 500 : 0, overflow: "hidden", transition: "max-height 0.4s ease" }}>
                       <div style={{ padding: "0 24px 22px" }}>
-                        <p
-                          style={{
-                            fontSize: 14.5,
-                            lineHeight: 1.7,
-                            color: "#555",
-                            margin: 0,
-                          }}
-                        >
-                          {item.a}
-                        </p>
+                        <p style={{ fontSize: 14.5, lineHeight: 1.7, color: "#555", margin: 0 }}>{item.a}</p>
                       </div>
                     </div>
                   </div>

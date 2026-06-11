@@ -1,13 +1,23 @@
-const sectors = [
-  { icon: "fas fa-truck", label: "Logística & Distribuição" },
-  { icon: "fas fa-snowflake", label: "Cadeia de Frio" },
-  { icon: "fas fa-hard-hat", label: "Construção" },
-  { icon: "fas fa-tractor", label: "Agricultura" },
-  { icon: "fas fa-landmark", label: "Serviços Públicos" },
-  { icon: "fas fa-dolly-flatbed", label: "Mudanças & Transporte" },
-];
+export type IndustryContent = {
+  eyebrow: string;
+  title: string;
+  items: { icon: string; label: string }[];
+};
 
-export default function IndustryStrip() {
+const defaultContent: IndustryContent = {
+  eyebrow: "Sectores que servimos",
+  title: "Empresas que confiam na Dongfeng",
+  items: [
+    { icon: "fas fa-truck", label: "Logística & Distribuição" },
+    { icon: "fas fa-snowflake", label: "Cadeia de Frio" },
+    { icon: "fas fa-hard-hat", label: "Construção" },
+    { icon: "fas fa-tractor", label: "Agricultura" },
+    { icon: "fas fa-landmark", label: "Serviços Públicos" },
+    { icon: "fas fa-dolly-flatbed", label: "Mudanças & Transporte" },
+  ],
+};
+
+export default function IndustryStrip({ content = defaultContent }: { content?: IndustryContent }) {
   return (
     <section
       style={{
@@ -29,16 +39,10 @@ export default function IndustryStrip() {
               marginBottom: 4,
             }}
           >
-            Sectores que servimos
+            {content.eyebrow}
           </p>
-          <h3
-            style={{
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 700,
-              margin: 0,
-            }}
-          >
-            Empresas que confiam na Dongfeng
+          <h3 style={{ fontSize: "clamp(22px, 3vw, 28px)", fontWeight: 700, margin: 0 }}>
+            {content.title}
           </h3>
         </div>
         <div
@@ -49,7 +53,7 @@ export default function IndustryStrip() {
             alignItems: "stretch",
           }}
         >
-          {sectors.map((s, i) => (
+          {content.items.map((s, i) => (
             <div
               key={i}
               style={{
@@ -69,7 +73,13 @@ export default function IndustryStrip() {
             >
               <i
                 className={s.icon}
-                style={{ fontSize: 26, color: "#E50012", flexShrink: 0, width: 28, textAlign: "center" }}
+                style={{
+                  fontSize: 26,
+                  color: "#E50012",
+                  flexShrink: 0,
+                  width: 28,
+                  textAlign: "center",
+                }}
                 aria-hidden="true"
               />
               <span>{s.label}</span>

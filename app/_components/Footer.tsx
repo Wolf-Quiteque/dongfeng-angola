@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import type { SiteContent } from "@/lib/schemas";
 
-export default function Footer() {
+export default function Footer({ site }: { site: SiteContent }) {
   const [email, setEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState<
     "idle" | "sending" | "success" | "error"
@@ -36,21 +37,18 @@ export default function Footer() {
               <div className="col-xl-4 col-lg-6 col-md-6">
                 <div className="footer-widget__about">
                   <div className="footer-widget__about-logo">
-                    <Link href="/" aria-label="Dongfeng Angola">
+                    <Link href="/" aria-label={site.brand}>
                       <span style={{ fontWeight: 800, fontSize: "22px", color: "#fff" }}>
-                        DONGFENG <span style={{ color: "#E50012" }}>Angola</span>
+                        {site.logoText} <span style={{ color: "#E50012" }}>{site.logoAccent}</span>
                       </span>
                     </Link>
                   </div>
-                  <p className="footer-widget__about-text">
-                    Representante oficial da Dongfeng em Angola. Veículos comerciais
-                    robustos para o seu negócio — venda, peças e assistência técnica.
-                  </p>
+                  <p className="footer-widget__about-text">{site.footerAbout}</p>
                   <form className="footer-widget__form" onSubmit={onSubscribe}>
                     <div className="footer-widget__input">
                       <input
                         type="email"
-                        placeholder="O seu email"
+                        placeholder={site.footerNewsletterPlaceholder}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -59,93 +57,64 @@ export default function Footer() {
                     <button
                       type="submit"
                       className="footer-widget__btn"
-                      aria-label="Subscrever"
+                      aria-label={site.footerNewsletterSubmitLabel}
                       disabled={newsletterStatus === "sending"}
                     >
                       <i className="icon-right-arrow" />
                     </button>
                   </form>
                   {newsletterStatus === "success" && (
-                    <p
-                      style={{ color: "#fff", marginTop: 10, fontSize: 13 }}
-                      role="status"
-                    >
-                      Obrigado! A sua subscrição foi recebida.
+                    <p style={{ color: "#fff", marginTop: 10, fontSize: 13 }} role="status">
+                      {site.footerNewsletterSuccess}
                     </p>
                   )}
                   {newsletterStatus === "error" && (
-                    <p
-                      style={{ color: "#ff8a8a", marginTop: 10, fontSize: 13 }}
-                      role="alert"
-                    >
-                      Não foi possível subscrever — tente novamente.
+                    <p style={{ color: "#ff8a8a", marginTop: 10, fontSize: 13 }} role="alert">
+                      {site.footerNewsletterError}
                     </p>
                   )}
                 </div>
               </div>
               <div className="col-xl-2 col-lg-6 col-md-6">
                 <div className="footer-widget__links">
-                  <h4 className="footer-widget__title">Navegação</h4>
+                  <h4 className="footer-widget__title">{site.footerNavTitle}</h4>
                   <ul className="footer-widget__links-list list-unstyled">
-                    <li>
-                      <Link href="/">Início</Link>
-                    </li>
-                    <li>
-                      <Link href="/modelos">Modelos</Link>
-                    </li>
-                    <li>
-                      <Link href="/sobre">Sobre Nós</Link>
-                    </li>
-                    <li>
-                      <Link href="/agendar-visita">Agendar Visita</Link>
-                    </li>
-                    <li>
-                      <Link href="/contacto">Contacto</Link>
-                    </li>
+                    {site.nav.map((item) => (
+                      <li key={item.href}>
+                        <Link href={item.href}>{item.label}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
               <div className="col-xl-3 col-lg-6 col-md-6">
                 <div className="footer-widget__services">
-                  <h4 className="footer-widget__title">Serviços</h4>
+                  <h4 className="footer-widget__title">{site.footerServicesTitle}</h4>
                   <ul className="footer-widget__links-list list-unstyled">
-                    <li>
-                      <Link href="/modelos?categoria=mini-caminhao">Mini Caminhões</Link>
-                    </li>
-                    <li>
-                      <Link href="/modelos?categoria=caminhao-ligeiro">
-                        Caminhões Ligeiros
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/modelos?categoria=especial">Veículos Especiais</Link>
-                    </li>
-                    <li>
-                      <Link href="/contacto">Peças e Assistência</Link>
-                    </li>
-                    <li>
-                      <Link href="/agendar-visita">Test Drive</Link>
-                    </li>
+                    {site.footerServiceLinks.map((item) => (
+                      <li key={item.href}>
+                        <Link href={item.href}>{item.label}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
               <div className="col-xl-3 col-lg-6 col-md-6">
                 <div className="footer-widget__contact">
-                  <h3 className="footer-widget__title">Contacto</h3>
+                  <h3 className="footer-widget__title">{site.footerContactTitle}</h3>
                   <ul className="footer-widget__contact-list list-unstyled">
                     <li>
                       <div className="icon">
                         <span className="icon-pin" />
                       </div>
-                      <p>Paragem da Mutamba,
-                        <br /> via expresse, Luanda, Angola</p>
+                      <p style={{ whiteSpace: "pre-line" }}>{site.address}</p>
                     </li>
                     <li>
                       <div className="icon">
                         <span className="icon-call" />
                       </div>
                       <p>
-                        <a href="tel:+244928283666">+244 928 283 666 / +244 926 267 111</a>
+                        <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
                       </p>
                     </li>
                     <li>
@@ -153,9 +122,7 @@ export default function Footer() {
                         <span className="icon-envelope" />
                       </div>
                       <p>
-                        <a href="mailto:txtailai@yeah.net">
-                          txtailai@yeah.net
-                        </a>
+                        <a href={`mailto:${site.email}`}>{site.email}</a>
                       </p>
                     </li>
                   </ul>
@@ -172,18 +139,18 @@ export default function Footer() {
               <div className="site-footer__bottom-inner">
                 <div className="site-footer__copyright">
                   <p className="site-footer__copyright-text">
-                    © {new Date().getFullYear()} Dongfeng Angola. Todos os direitos
-                    reservados.
+                    {site.copyright
+                      .replace("{year}", String(new Date().getFullYear()))
+                      .replace("{brand}", site.brand)}
                   </p>
                 </div>
                 <div className="site-footer__bottom-menu-box">
                   <ul className="list-unstyled site-footer__bottom-menu">
-                    <li>
-                      <Link href="/sobre">Termos</Link>
-                    </li>
-                    <li>
-                      <Link href="/sobre">Privacidade</Link>
-                    </li>
+                    {site.footerBottomLinks.map((item) => (
+                      <li key={item.label}>
+                        <Link href={item.href}>{item.label}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>

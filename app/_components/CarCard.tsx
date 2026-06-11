@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { Car } from "../_data/cars";
+import type { Car } from "@/lib/schemas";
 
 export default function CarCard({ car, delay = 100 }: { car: Car; delay?: number }) {
   return (

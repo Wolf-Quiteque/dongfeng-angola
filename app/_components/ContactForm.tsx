@@ -4,7 +4,33 @@ import { useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-export default function ContactForm() {
+export type ContactFormLabels = {
+  nome: string;
+  email: string;
+  telefone: string;
+  assunto: string;
+  mensagem: string;
+  sending: string;
+  submit: string;
+  success: string;
+  errorPrefix: string;
+  errorFallback: string;
+};
+
+const defaultLabels: ContactFormLabels = {
+  nome: "Nome",
+  email: "Email",
+  telefone: "Telefone",
+  assunto: "Assunto",
+  mensagem: "A sua mensagem",
+  sending: "A enviar...",
+  submit: "Enviar Mensagem",
+  success: "Mensagem enviada com sucesso. Iremos responder em breve.",
+  errorPrefix: "Não foi possível enviar",
+  errorFallback: "tente novamente",
+};
+
+export default function ContactForm({ labels = defaultLabels }: { labels?: ContactFormLabels }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -39,42 +65,33 @@ export default function ContactForm() {
       <div className="row">
         <div className="col-md-6">
           <div className="contact-page__input-box">
-            <input type="text" name="nome" placeholder="Nome" required />
+            <input type="text" name="nome" placeholder={labels.nome} required />
           </div>
         </div>
         <div className="col-md-6">
           <div className="contact-page__input-box">
-            <input type="email" name="email" placeholder="Email" required />
+            <input type="email" name="email" placeholder={labels.email} required />
           </div>
         </div>
         <div className="col-md-6">
           <div className="contact-page__input-box">
-            <input type="tel" name="telefone" placeholder="Telefone" />
+            <input type="tel" name="telefone" placeholder={labels.telefone} />
           </div>
         </div>
         <div className="col-md-6">
           <div className="contact-page__input-box">
-            <input type="text" name="assunto" placeholder="Assunto" required />
+            <input type="text" name="assunto" placeholder={labels.assunto} required />
           </div>
         </div>
         <div className="col-md-12">
           <div className="contact-page__input-box">
-            <textarea
-              name="mensagem"
-              placeholder="A sua mensagem"
-              rows={6}
-              required
-            />
+            <textarea name="mensagem" placeholder={labels.mensagem} rows={6} required />
           </div>
         </div>
         <div className="col-md-12">
           <div className="contact-page__btn-box">
-            <button
-              type="submit"
-              className="thm-btn"
-              disabled={status === "sending"}
-            >
-              {status === "sending" ? "A enviar..." : "Enviar Mensagem"}
+            <button type="submit" className="thm-btn" disabled={status === "sending"}>
+              {status === "sending" ? labels.sending : labels.submit}
               <span className="fas fa-arrow-right" />
             </button>
           </div>
@@ -82,33 +99,13 @@ export default function ContactForm() {
       </div>
 
       {status === "success" && (
-        <div
-          role="status"
-          style={{
-            marginTop: 20,
-            padding: "16px 20px",
-            background: "#f0fdf4",
-            border: "1px solid #86efac",
-            color: "#14532d",
-            borderRadius: 6,
-          }}
-        >
-          Mensagem enviada com sucesso. Iremos responder em breve.
+        <div role="status" style={{ marginTop: 20, padding: "16px 20px", background: "#f0fdf4", border: "1px solid #86efac", color: "#14532d", borderRadius: 6 }}>
+          {labels.success}
         </div>
       )}
       {status === "error" && (
-        <div
-          role="alert"
-          style={{
-            marginTop: 20,
-            padding: "16px 20px",
-            background: "#fef2f2",
-            border: "1px solid #fca5a5",
-            color: "#7f1d1d",
-            borderRadius: 6,
-          }}
-        >
-          Não foi possível enviar — {errorMsg || "tente novamente"}.
+        <div role="alert" style={{ marginTop: 20, padding: "16px 20px", background: "#fef2f2", border: "1px solid #fca5a5", color: "#7f1d1d", borderRadius: 6 }}>
+          {labels.errorPrefix} - {errorMsg || labels.errorFallback}.
         </div>
       )}
     </form>

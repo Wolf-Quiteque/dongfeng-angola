@@ -4,7 +4,17 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { waitForJQueryPlugin } from "./jquery-ready";
 
-const slides = [
+export type HeroSlide = {
+  img: string;
+  sub: string;
+  titlePre: string;
+  titleAccent: string;
+  sub2: string;
+  cta: string;
+  href: string;
+};
+
+const defaultSlides: HeroSlide[] = [
   {
     img: "/img/cars/captain-t-01.jpeg",
     sub: "Representante oficial em Angola",
@@ -14,27 +24,9 @@ const slides = [
     cta: "Ver Modelos",
     href: "/modelos",
   },
-  {
-    img: "/img/cars/dfac-light-truck-01.jpeg",
-    sub: "Linha comercial 2026",
-    titlePre: "Caminhões",
-    titleAccent: "Ligeiros",
-    sub2: "Mais carga, menos consumo",
-    cta: "Marcar Visita",
-    href: "/agendar-visita",
-  },
-  {
-    img: "/img/cars/captain-frigorifico-01.jpeg",
-    sub: "Cadeia de frio",
-    titlePre: "Soluções",
-    titleAccent: "Frigoríficas",
-    sub2: "Transporte alimentar e farmacêutico",
-    cta: "Saber Mais",
-    href: "/modelos?categoria=especial",
-  },
 ];
 
-export default function HeroSlider() {
+export default function HeroSlider({ slides = defaultSlides }: { slides?: HeroSlide[] }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     let cancelled = false;

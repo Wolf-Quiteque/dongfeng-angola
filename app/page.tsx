@@ -9,17 +9,23 @@ import Testimonials from "./_components/Testimonials";
 import Gallery from "./_components/Gallery";
 import Faq from "./_components/Faq";
 import VideoBanner from "./_components/VideoBanner";
-import { getFeaturedCars } from "./_data/cars";
+import { getCarsContent, getContent } from "@/lib/data";
+import { home as homeDefaults } from "@/lib/content/pages";
 
-export default function HomePage() {
-  const featured = getFeaturedCars();
+type HomeContent = typeof homeDefaults;
+
+export default async function HomePage() {
+  const [home, catalog] = await Promise.all([
+    getContent("home") as Promise<HomeContent>,
+    getCarsContent(),
+  ]);
+  const featured = catalog.cars.filter((car) => car.destaque);
 
   return (
     <>
-      <HeroSlider />
-      <SlidingText />
+      <HeroSlider slides={home.heroSlides} />
+      <SlidingText words={home.slidingWords} />
 
-      {/* About brief */}
       <section className="about-one" style={{ padding: "100px 0 60px" }}>
         <div className="container">
           <div className="row align-items-center">
@@ -33,50 +39,27 @@ export default function HomePage() {
                 }}
               >
                 <img
-                  src="/img/dealership-signage.jpeg"
-                  alt="Concessionária Dongfeng Angola"
+                  src={home.about.image}
+                  alt={home.about.imageAlt}
                   style={{ width: "100%", height: "auto", display: "block" }}
                 />
               </div>
             </div>
             <div className="col-lg-6">
               <div style={{ paddingLeft: 0, marginTop: 40 }}>
-                <p
-                  style={{
-                    color: "#E50012",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    letterSpacing: 2,
-                    marginBottom: 12,
-                  }}
-                >
-                  Sobre Nós
+                <p style={{ color: "#E50012", textTransform: "uppercase", fontWeight: 700, letterSpacing: 2, marginBottom: 12 }}>
+                  {home.about.eyebrow}
                 </p>
-                <h2
-                  style={{
-                    fontSize: "clamp(28px, 4vw, 44px)",
-                    fontWeight: 800,
-                    lineHeight: 1.15,
-                    marginBottom: 22,
-                  }}
-                >
-                  Representante oficial Dongfeng em{" "}
-                  <span style={{ color: "#E50012" }}>Angola</span>
+                <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, lineHeight: 1.15, marginBottom: 22 }}>
+                  {home.about.title} <span style={{ color: "#E50012" }}>{home.about.titleAccent}</span>
                 </h2>
-                <p style={{ fontSize: 16, lineHeight: 1.7, marginBottom: 18 }}>
-                  Somos a concessionária oficial Dongfeng em Angola, oferecendo a
-                  gama completa de veículos comerciais da marca chinesa. Mini
-                  caminhões, caminhões ligeiros, soluções frigoríficas e veículos
-                  especiais — com apoio técnico, peças genuínas e garantia de
-                  fábrica.
-                </p>
-                <p style={{ fontSize: 16, lineHeight: 1.7, marginBottom: 30 }}>
-                  Trabalhamos para empresas de logística, distribuição alimentar,
-                  construção, agricultura e serviços. Cada veículo é entregue com
-                  documentação completa e pronto para o trabalho intensivo.
-                </p>
-                <Link href="/sobre" className="thm-btn">
-                  Saber Mais <span className="fas fa-arrow-right" />
+                {home.about.paragraphs.map((paragraph, i) => (
+                  <p key={i} style={{ fontSize: 16, lineHeight: 1.7, marginBottom: i === home.about.paragraphs.length - 1 ? 30 : 18 }}>
+                    {paragraph}
+                  </p>
+                ))}
+                <Link href={home.about.ctaHref} className="thm-btn">
+                  {home.about.ctaLabel} <span className="fas fa-arrow-right" />
                 </Link>
               </div>
             </div>
@@ -84,33 +67,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <IndustryStrip />
+      <IndustryStrip content={home.sectors} />
 
-      {/* Featured models */}
-      <section
-        className="car-listing-page-one"
-        style={{ padding: "90px 0", background: "#fff" }}
-      >
+      <section className="car-listing-page-one" style={{ padding: "90px 0", background: "#fff" }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: 50 }}>
-            <p
-              style={{
-                color: "#E50012",
-                textTransform: "uppercase",
-                fontWeight: 700,
-                letterSpacing: 2,
-              }}
-            >
-              Modelos em Destaque
+            <p style={{ color: "#E50012", textTransform: "uppercase", fontWeight: 700, letterSpacing: 2 }}>
+              {home.featured.eyebrow}
             </p>
-            <h2
-              style={{
-                fontSize: "clamp(28px, 4vw, 42px)",
-                fontWeight: 800,
-                marginTop: 8,
-              }}
-            >
-              A linha completa <span style={{ color: "#E50012" }}>Dongfeng</span>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, marginTop: 8 }}>
+              {home.featured.title} <span style={{ color: "#E50012" }}>{home.featured.titleAccent}</span>
             </h2>
           </div>
           <div className="row">
@@ -121,59 +87,39 @@ export default function HomePage() {
             ))}
           </div>
           <div className="text-center" style={{ marginTop: 30 }}>
-            <Link href="/modelos" className="thm-btn">
-              Ver Todos os Modelos <span className="fas fa-arrow-right" />
+            <Link href={home.featured.ctaHref} className="thm-btn">
+              {home.featured.ctaLabel} <span className="fas fa-arrow-right" />
             </Link>
           </div>
         </div>
       </section>
 
-      <ProcessSteps />
+      <ProcessSteps content={home.process} />
       <VideoBanner />
-      <WhyChoose />
-      <Gallery />
+      <WhyChoose content={home.whyChoose} />
+      <Gallery content={home.gallery} />
       <Testimonials />
-      <Faq />
+      <Faq content={home.faq} />
 
-      {/* Final CTA */}
       <section
         className="cta-one"
         style={{
           padding: "80px 0",
-          background:
-            "linear-gradient(135deg, rgba(229,0,18,0.95), rgba(150,0,12,0.95))",
+          background: "linear-gradient(135deg, rgba(229,0,18,0.95), rgba(150,0,12,0.95))",
           color: "#fff",
         }}
       >
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-8">
-              <h2
-                style={{
-                  fontSize: "clamp(28px, 4vw, 42px)",
-                  fontWeight: 800,
-                  color: "#fff",
-                  marginBottom: 8,
-                }}
-              >
-                Pronto para conhecer o seu próximo Dongfeng?
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#fff", marginBottom: 8 }}>
+                {home.finalCta.title}
               </h2>
-              <p style={{ fontSize: 17, opacity: 0.95, margin: 0 }}>
-                Marque uma visita à nossa concessionária em Luanda e teste o
-                veículo que se adapta ao seu negócio.
-              </p>
+              <p style={{ fontSize: 17, opacity: 0.95, margin: 0 }}>{home.finalCta.text}</p>
             </div>
             <div className="col-lg-4 text-lg-end">
-              <Link
-                href="/agendar-visita"
-                className="thm-btn"
-                style={{
-                  backgroundColor: "#fff",
-                  color: "#E50012",
-                  marginTop: 24,
-                }}
-              >
-                Marcar Visita Agora
+              <Link href={home.finalCta.ctaHref} className="thm-btn" style={{ backgroundColor: "#fff", color: "#E50012", marginTop: 24 }}>
+                {home.finalCta.ctaLabel}
                 <span className="fas fa-arrow-right" />
               </Link>
             </div>

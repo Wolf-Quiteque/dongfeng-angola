@@ -1,0 +1,45 @@
+import type { SiteContent } from "@/lib/schemas";
+
+export const site: SiteContent = {
+  brand: "Dongfeng Angola",
+  logoText: "DONGFENG",
+  logoAccent: "Angola",
+  phone: "+244 928 283 666 / +244 926 267 111",
+  phoneHref: "+244928283666",
+  email: "txtailai@yeah.net",
+  address: "Paragem da Mutamba, via expresse, Luanda, Angola",
+  addressShort: "Paragem da Mutamba, via expresse, Luanda, Angola",
+  hours: ["Segunda a Sexta: 08:00-17:30", "Sábado: 09:00-13:00"],
+  nav: [
+    { label: "Início", href: "/" },
+    { label: "Modelos", href: "/modelos" },
+    { label: "Sobre Nós", href: "/sobre" },
+    { label: "Agendar Visita", href: "/agendar-visita" },
+    { label: "Contacto", href: "/contacto" },
+  ],
+  headerCallLabel: "Ligue-nos",
+  headerCtaLabel: "Marcar Visita",
+  footerAbout:
+    "Representante oficial da Dongfeng em Angola. Veículos comerciais robustos para o seu negócio - venda, peças e assistência técnica.",
+  footerNewsletterPlaceholder: "O seu email",
+  footerNewsletterSubmitLabel: "Subscrever",
+  footerNewsletterSuccess: "Obrigado! A sua subscrição foi recebida.",
+  footerNewsletterError: "Não foi possível subscrever - tente novamente.",
+  footerNavTitle: "Navegação",
+  footerServicesTitle: "Serviços",
+  footerContactTitle: "Contacto",
+  footerServiceLinks: [
+    { label: "Mini Caminhões", href: "/modelos?categoria=mini-caminhao" },
+    { label: "Caminhões Ligeiros", href: "/modelos?categoria=caminhao-ligeiro" },
+    { label: "Veículos Especiais", href: "/modelos?categoria=especial" },
+    { label: "Peças e Assistência", href: "/contacto" },
+    { label: "Test Drive", href: "/agendar-visita" },
+  ],
+  footerBottomLinks: [
+    { label: "Termos", href: "/sobre" },
+    { label: "Privacidade", href: "/sobre" },
+  ],
+  copyright: "© {year} {brand}. Todos os direitos reservados.",
+  searchLabel: "Pesquisar",
+  searchPlaceholder: "Pesquisar modelo...",
+};

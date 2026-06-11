@@ -2,17 +2,18 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageHeader from "../../_components/PageHeader";
 import VisitForm from "../../_components/VisitForm";
-import { cars, getCarBySlug } from "../../_data/cars";
+import { getCarBySlug, getCarsContent } from "@/lib/data";
 
-export function generateStaticParams() {
-  return cars.map((c) => ({ slug: c.slug }));
+export async function generateStaticParams() {
+  const catalog = await getCarsContent();
+  return catalog.cars.map((c) => ({ slug: c.slug }));
 }
 
 type Params = Promise<{ slug: string }>;
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
-  const car = getCarBySlug(slug);
+  const car = await getCarBySlug(slug);
   if (!car) return { title: "Modelo não encontrado — Dongfeng Angola" };
   return {
     title: `${car.nome} — Dongfeng Angola`,
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 
 export default async function CarDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const car = getCarBySlug(slug);
+  const [car, catalog] = await Promise.all([getCarBySlug(slug), getCarsContent()]);
   if (!car) notFound();
 
   return (
@@ -285,7 +286,7 @@ export default async function CarDetailPage({ params }: { params: Params }) {
                 </h2>
               </div>
               <div style={{ background: "#fff", padding: 40, borderRadius: 10 }}>
-                <VisitForm defaultModel={car.slug} />
+                <VisitForm cars={catalog.cars} defaultModel={car.slug} />
               </div>
             </div>
           </div>

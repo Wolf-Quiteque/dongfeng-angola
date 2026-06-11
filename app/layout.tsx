@@ -6,11 +6,23 @@ import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import AosManager from "./_components/AosManager";
 import Preloader from "./_components/Preloader";
+import { getSiteContent } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Dongfeng Angola — Representante oficial em Angola",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.dongfengangola.com"),
+  title: "Dongfeng Angola - Representante oficial em Angola",
   description:
     "Representante oficial Dongfeng em Angola. Veículos comerciais, mini caminhões, caminhões ligeiros e soluções frigoríficas. Marque a sua visita.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_AO",
+    siteName: "Dongfeng Angola",
+    title: "Dongfeng Angola - Representante oficial em Angola",
+    description:
+      "Veículos comerciais Dongfeng em Angola: mini caminhões, caminhões ligeiros e soluções frigoríficas.",
+    url: "/",
+  },
 };
 
 const cssAssets = [
@@ -34,9 +46,11 @@ const cssAssets = [
   "/assets/css/theme-dongfeng.css",
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const site = await getSiteContent();
+
   return (
     <html lang="pt" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
@@ -45,18 +59,10 @@ export default function RootLayout({
         ))}
       </head>
       <body>
-        {/* Critical libs — must be on window early. */}
-        <Script
-          src="/assets/js/jquery-3.6.0.min.js"
-          strategy="beforeInteractive"
-        />
+        <Script src="/assets/js/jquery-3.6.0.min.js" strategy="beforeInteractive" />
         <Script src="/assets/js/jquery-ui.js" strategy="beforeInteractive" />
-        <Script
-          src="/assets/js/bootstrap.bundle.min.js"
-          strategy="beforeInteractive"
-        />
+        <Script src="/assets/js/bootstrap.bundle.min.js" strategy="beforeInteractive" />
 
-        {/* Plugins — load after hydration. */}
         <Script src="/assets/js/swiper.min.js" strategy="afterInteractive" />
         <Script src="/assets/js/owl.carousel.min.js" strategy="afterInteractive" />
         <Script src="/assets/js/aos.js" strategy="afterInteractive" />
@@ -76,17 +82,15 @@ export default function RootLayout({
         <Script src="/assets/js/gsap/gsap.js" strategy="afterInteractive" />
         <Script src="/assets/js/gsap/ScrollTrigger.js" strategy="afterInteractive" />
         <Script src="/assets/js/gsap/SplitText.js" strategy="afterInteractive" />
-
-        {/* Template's own init — last. */}
         <Script src="/assets/js/script.js" strategy="afterInteractive" />
 
         <Preloader />
-        <Header />
+        <Header site={site} />
         <Suspense fallback={null}>
           <AosManager />
         </Suspense>
         <main>{children}</main>
-        <Footer />
+        <Footer site={site} />
 
         <a href="#" data-target="html" className="scroll-to-target scroll-to-top">
           <span className="scroll-to-top__wrapper">

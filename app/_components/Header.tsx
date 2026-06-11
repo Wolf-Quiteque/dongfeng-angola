@@ -3,16 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import type { SiteContent } from "@/lib/schemas";
 
-
-export default function Header() {
+export default function Header({ site }: { site: SiteContent }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Re-initialize template's interactive bits after every client-side navigation:
-    // sticky header, mobile menu toggler, search popup. The template binds these
-    // in script.js on initial load; remounting Header on route change would lose
-    // those handlers without this.
     if (typeof window === "undefined") return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const $ = (window as unknown as { jQuery?: any }).jQuery;
@@ -50,6 +46,39 @@ export default function Header() {
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
 
+  const logo = (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "10px",
+        fontWeight: 800,
+        fontSize: "26px",
+        letterSpacing: "0.5px",
+        color: "#111",
+      }}
+    >
+      <span
+        style={{
+          display: "inline-block",
+          width: "44px",
+          height: "44px",
+          borderRadius: "50%",
+          background: "#E50012",
+          color: "#fff",
+          textAlign: "center",
+          lineHeight: "44px",
+          fontSize: "20px",
+        }}
+      >
+        {site.logoText.charAt(0)}
+      </span>
+      <span>
+        {site.logoText} <span style={{ color: "#E50012" }}>{site.logoAccent}</span>
+      </span>
+    </span>
+  );
+
   return (
     <>
       <header className="main-header">
@@ -58,37 +87,8 @@ export default function Header() {
             <div className="main-menu__wrapper-inner">
               <div className="main-menu__left">
                 <div className="main-menu__logo">
-                  <Link href="/" aria-label="Dongfeng Angola — Início">
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        fontWeight: 800,
-                        fontSize: "26px",
-                        letterSpacing: "0.5px",
-                        color: "#111",
-                      }}
-                    >
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "44px",
-                          height: "44px",
-                          borderRadius: "50%",
-                          background: "#E50012",
-                          color: "#fff",
-                          textAlign: "center",
-                          lineHeight: "44px",
-                          fontSize: "20px",
-                        }}
-                      >
-                        D
-                      </span>
-                      <span>
-                        DONGFENG <span style={{ color: "#E50012" }}>Angola</span>
-                      </span>
-                    </span>
+                  <Link href="/" aria-label={`${site.brand} - Início`}>
+                    {logo}
                   </Link>
                 </div>
               </div>
@@ -98,21 +98,11 @@ export default function Header() {
                     <i className="fa fa-bars" />
                   </a>
                   <ul className="main-menu__list">
-                    <li className={isActive("/") ? "current" : ""}>
-                      <Link href="/">Início</Link>
-                    </li>
-                    <li className={isActive("/modelos") ? "current" : ""}>
-                      <Link href="/modelos">Modelos</Link>
-                    </li>
-                    <li className={isActive("/sobre") ? "current" : ""}>
-                      <Link href="/sobre">Sobre Nós</Link>
-                    </li>
-                    <li className={isActive("/agendar-visita") ? "current" : ""}>
-                      <Link href="/agendar-visita">Agendar Visita</Link>
-                    </li>
-                    <li className={isActive("/contacto") ? "current" : ""}>
-                      <Link href="/contacto">Contacto</Link>
-                    </li>
+                    {site.nav.map((item) => (
+                      <li key={item.href} className={isActive(item.href) ? "current" : ""}>
+                        <Link href={item.href}>{item.label}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -122,15 +112,15 @@ export default function Header() {
                     <i className="icon-call-3" />
                   </div>
                   <div className="main-menu__call-content">
-                    <p className="main-menu__call-sub-title">Ligue-nos</p>
+                    <p className="main-menu__call-sub-title">{site.headerCallLabel}</p>
                     <h5 className="main-menu__call-number">
-                      <a href="tel:+244928283666">+244 928 283 666</a>
+                      <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
                     </h5>
                   </div>
                 </div>
                 <div className="main-menu__nav-sidebar-icon">
                   <Link href="/agendar-visita" className="thm-btn">
-                    Marcar Visita
+                    {site.headerCtaLabel}
                   </Link>
                 </div>
               </div>
@@ -143,7 +133,6 @@ export default function Header() {
         <div className="sticky-header__content" />
       </div>
 
-      {/* Mobile nav drawer (template markup) */}
       <div className="mobile-nav__wrapper">
         <div className="mobile-nav__overlay mobile-nav__toggler" />
         <div className="mobile-nav__content">
@@ -151,52 +140,41 @@ export default function Header() {
             <i className="fa fa-times" />
           </span>
           <div className="logo-box">
-            <Link href="/" aria-label="Dongfeng Angola">
+            <Link href="/" aria-label={site.brand}>
               <span style={{ fontWeight: 800, color: "#fff" }}>
-                DONGFENG <span style={{ color: "#E50012" }}>Angola</span>
+                {site.logoText} <span style={{ color: "#E50012" }}>{site.logoAccent}</span>
               </span>
             </Link>
           </div>
           <ul className="mobile-nav__container main-menu__list">
-            <li>
-              <Link href="/">Início</Link>
-            </li>
-            <li>
-              <Link href="/modelos">Modelos</Link>
-            </li>
-            <li>
-              <Link href="/sobre">Sobre Nós</Link>
-            </li>
-            <li>
-              <Link href="/agendar-visita">Agendar Visita</Link>
-            </li>
-            <li>
-              <Link href="/contacto">Contacto</Link>
-            </li>
+            {site.nav.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href}>{item.label}</Link>
+              </li>
+            ))}
           </ul>
           <ul className="mobile-nav__contact list-unstyled">
             <li>
               <i className="fa fa-envelope" />
-              <a href="mailto:txtailai@yeah.net">txtailai@yeah.net</a>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
             </li>
             <li>
               <i className="fa fa-phone-alt" />
-              <a href="tel:+244928283666">+244 928 283 666</a>
+              <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Search popup (template markup) */}
       <div className="search-popup">
         <div className="search-popup__overlay search-toggler" />
         <div className="search-popup__content">
-          <form action="#">
+          <form action="/modelos">
             <label htmlFor="search" className="sr-only">
-              Pesquisar
+              {site.searchLabel}
             </label>
-            <input type="text" id="search" placeholder="Pesquisar modelo..." />
-            <button type="submit" aria-label="Pesquisar">
+            <input type="text" id="search" name="q" placeholder={site.searchPlaceholder} />
+            <button type="submit" aria-label={site.searchLabel}>
               <i className="icon-search" />
             </button>
           </form>

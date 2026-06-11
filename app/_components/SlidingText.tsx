@@ -3,7 +3,9 @@
 import { useEffect, useRef } from "react";
 import { waitForJQueryPlugin } from "./jquery-ready";
 
-const words = [
+export type SlidingWord = { text: string; icon: string };
+
+const defaultWords: SlidingWord[] = [
   { text: "Robustez", icon: "icon-jeep" },
   { text: "Fiabilidade", icon: "icon-cuv" },
   { text: "Dongfeng", icon: "icon-jeep" },
@@ -12,7 +14,7 @@ const words = [
   { text: "Frota 2026", icon: "icon-cuv" },
 ];
 
-export default function SlidingText() {
+export default function SlidingText({ words = defaultWords }: { words?: SlidingWord[] }) {
   const ulRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
@@ -22,12 +24,6 @@ export default function SlidingText() {
       .then(($) => {
         if (cancelled || !ulRef.current) return;
         const $el = $(ulRef.current);
-        // Two callers try to init this element: this useEffect AND the template's
-        // script.js. Each call wraps content in .js-marquee-wrapper, so running
-        // twice produces nested wrappers and the "stacked rows" artifact.
-        // Guard 1: skip if already wrapped (either by us earlier, or by script.js).
-        // Guard 2: drop the marquee_mode class once initialized so the OTHER caller's
-        // selector misses on its turn.
         if ($el.find("> .js-marquee-wrapper").length === 0) {
           $el.marquee({
             speed: 30,
@@ -48,13 +44,7 @@ export default function SlidingText() {
   }, []);
 
   return (
-    <section
-      className="sliding-text-one"
-      style={{
-        padding: "14px 0",
-        overflow: "hidden",
-      }}
-    >
+    <section className="sliding-text-one" style={{ padding: "14px 0", overflow: "hidden" }}>
       <div className="sliding-text-one__wrap">
         <ul
           ref={ulRef}
