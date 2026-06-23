@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import type { SiteContent } from "@/lib/schemas";
 
@@ -38,9 +39,13 @@ export default function Footer({ site }: { site: SiteContent }) {
                 <div className="footer-widget__about">
                   <div className="footer-widget__about-logo">
                     <Link href="/" aria-label={site.brand}>
-                      <span style={{ fontWeight: 800, fontSize: "22px", color: "#fff" }}>
-                        {site.logoText} <span style={{ color: "#E50012" }}>{site.logoAccent}</span>
-                      </span>
+                      <Image
+                        src="/img/logo.png"
+                        alt={site.brand}
+                        width={170}
+                        height={45}
+                        style={{ display: "block", height: "auto", maxWidth: "170px" }}
+                      />
                     </Link>
                   </div>
                   <p className="footer-widget__about-text">{site.footerAbout}</p>

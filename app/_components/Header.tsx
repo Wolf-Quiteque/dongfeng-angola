@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import type { SiteContent } from "@/lib/schemas";
@@ -46,38 +47,7 @@ export default function Header({ site }: { site: SiteContent }) {
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
 
-  const logo = (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "10px",
-        fontWeight: 800,
-        fontSize: "26px",
-        letterSpacing: "0.5px",
-        color: "#111",
-      }}
-    >
-      <span
-        style={{
-          display: "inline-block",
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          background: "#E50012",
-          color: "#fff",
-          textAlign: "center",
-          lineHeight: "44px",
-          fontSize: "20px",
-        }}
-      >
-        {site.logoText.charAt(0)}
-      </span>
-      <span>
-        {site.logoText} <span style={{ color: "#E50012" }}>{site.logoAccent}</span>
-      </span>
-    </span>
-  );
+  const logoSrc = "/img/logo.png";
 
   return (
     <>
@@ -88,7 +58,13 @@ export default function Header({ site }: { site: SiteContent }) {
               <div className="main-menu__left">
                 <div className="main-menu__logo">
                   <Link href="/" aria-label={`${site.brand} - Início`}>
-                    {logo}
+                    <Image
+                      src={logoSrc}
+                      alt={site.brand}
+                      width={190}
+                      height={50}
+                      style={{ display: "block", height: "auto", maxWidth: "190px" }}
+                    />
                   </Link>
                 </div>
               </div>
@@ -141,9 +117,13 @@ export default function Header({ site }: { site: SiteContent }) {
           </span>
           <div className="logo-box">
             <Link href="/" aria-label={site.brand}>
-              <span style={{ fontWeight: 800, color: "#fff" }}>
-                {site.logoText} <span style={{ color: "#E50012" }}>{site.logoAccent}</span>
-              </span>
+              <Image
+                src={logoSrc}
+                alt={site.brand}
+                width={160}
+                height={42}
+                style={{ display: "block", height: "auto", maxWidth: "160px" }}
+              />
             </Link>
           </div>
           <ul className="mobile-nav__container main-menu__list">

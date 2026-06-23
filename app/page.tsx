@@ -5,7 +5,6 @@ import CarCard from "./_components/CarCard";
 import WhyChoose from "./_components/WhyChoose";
 import IndustryStrip from "./_components/IndustryStrip";
 import ProcessSteps from "./_components/ProcessSteps";
-import Testimonials from "./_components/Testimonials";
 import Gallery from "./_components/Gallery";
 import Faq from "./_components/Faq";
 import VideoBanner from "./_components/VideoBanner";
@@ -98,7 +97,6 @@ export default async function HomePage() {
       <VideoBanner />
       <WhyChoose content={home.whyChoose} />
       <Gallery content={home.gallery} />
-      <Testimonials />
       <Faq content={home.faq} />
 
       <section
